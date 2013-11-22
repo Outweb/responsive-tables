@@ -1,16 +1,16 @@
 $(document).ready(function() {
   var switched = false;
   var updateTables = function() {
-    if (($(window).width() < 767) && !switched ){
+    if (($(window).width() < 1000) && !switched ){
       switched = true;
-      $("table.responsive").each(function(i, element) {
+      $("table.table").each(function(i, element) {
         splitTable($(element));
       });
       return true;
     }
-    else if (switched && ($(window).width() > 767)) {
+    else if (switched && ($(window).width() > 1000)) {
       switched = false;
-      $("table.responsive").each(function(i, element) {
+      $("table.table").each(function(i, element) {
         unsplitTable($(element));
       });
     }
@@ -27,10 +27,12 @@ $(document).ready(function() {
 		
 		var copy = original.clone();
 		copy.find("td:not(:first-child), th:not(:first-child)").css("display", "none");
-		copy.removeClass("responsive");
+		copy.removeClass("table");
 		
 		original.closest(".table-wrapper").append(copy);
 		copy.wrap("<div class='pinned' />");
+
+        original.find("td:first-child, th:first-child").css("display", "none");
 		original.wrap("<div class='scrollable' />");
 
     setCellHeights(original, copy);
@@ -38,6 +40,7 @@ $(document).ready(function() {
 	
 	function unsplitTable(original) {
     original.closest(".table-wrapper").find(".pinned").remove();
+    original.find("td:first-child, th:first-child").css("display",'table-cell');
     original.unwrap();
     original.unwrap();
 	}
